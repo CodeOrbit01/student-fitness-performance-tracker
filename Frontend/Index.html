@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Fitness & Performance Tracker</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-dark"
+      style="
+        font-family:
+          &quot;Lucida Sans&quot;, &quot;Lucida Sans Regular&quot;,
+          &quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Geneva,
+          Verdana, sans-serif;
+      "
+    >
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="Index.html">Fitness Tracker</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Workout log.html">Workout Log</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="health-tracker.html">Health Tracker</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Progress.html">Progress</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Analytics.html">Analytics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section
+      class="py-5 text-white"
+      style="background: linear-gradient(135deg, #1a0b2e, #063940)"
+    >
+      <div class="container text-center">
+        <h1 class="display-4 fw-bold">Student Fitness & Performance Tracker</h1>
+        <p class="lead mt-3">
+          Track your workouts, monitor your progress, and stay consistent all in
+          one clean dashboard.
+        </p>
+        <a href="Workout log.html" class="btn btn-light btn-lg mt-3 fw-bold"
+          >Log Workout</a
+        >
+      </div>
+    </section>
+
+    <!-- DASHBOARD STATS -->
+    <section class="py-5 bg-light" style="background-color: #eef2ff !important">
+      <div class="container">
+        <h2 class="text-center fw-bold mb-4">Dashboard Overview</h2>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card shadow text-center">
+              <div class="card-body">
+                <h5>Total Workouts</h5>
+                <h2 id="totalWorkouts">0</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card shadow text-center">
+              <div class="card-body">
+                <h5>Total Calories</h5>
+                <h2 id="totalCalories">0</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card shadow text-center">
+              <div class="card-body">
+                <h5>Total Sleep Hours</h5>
+                <h2 id="totalSleep">0</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card shadow text-center">
+              <div class="card-body">
+                <h5>Total Steps</h5>
+                <h2 id="totalSteps">0</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card shadow text-center">
+              <div class="card-body">
+                <h5>Total Water Intake (L)</h5>
+                <h2 id="totalWater">0</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK ACTIONS -->
+    <section class="py-5">
+      <div class="container text-center">
+        <h2 class="fw-bold mb-4">Quick Actions</h2>
+
+        <a
+          href="Workout log.html"
+          class="btn btn-primary m-2"
+          style="background-color: #2563eb"
+        >
+          Log Workout
+        </a>
+
+        <a
+          href="health-tracker.html"
+          class="btn btn-success m-2"
+          style="background-color: #059669"
+        >
+          Health Tracker
+        </a>
+
+        <a href="analytics.html" class="btn btn-warning m-2"> Analytics </a>
+
+        <a
+          href="progress.html"
+          class="btn m-2"
+          style="background-color: #9061f9; color: white"
+        >
+          Progress
+        </a>
+      </div>
+    </section>
+
+    <!-- RECENT WORKOUTS -->
+    <section class="py-5 bg-light" style="background-color: #eef2ff !important">
+      <div class="container">
+        <h2 class="fw-bold text-center mb-4">Recent Workout Activity</h2>
+
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Exercise</th>
+                <th>Sets</th>
+                <th>Reps</th>
+                <th>Calories</th>
+              </tr>
+            </thead>
+
+            <tbody id="recentWorkoutsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-center mb-4">
+          <h2 class="fw-bold">Explore the Dashboard</h2>
+          <p class="text-muted">Your progress, neatly organized.</p>
+        </div>
+
+        <div class="row g-4">
+          <!-- CARD 1 -->
+          <div class="col-md-4">
+            <div class="card h-100 shadow">
+              <div class="card-body text-center">
+                <h4 class="card-title fw-bold">Workout Log</h4>
+                <p class="card-text text-muted">
+                  View your daily exercises, sets, reps, and calories burned —
+                  directly from Excel.
+                </p>
+                <a
+                  href="Workout log.html"
+                  class="btn btn-primary"
+                  style="
+                    background-color: #1a0b2e;
+                    border-color: #1a0b2e;
+                    color: white;
+                  "
+                  >View Log</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2 -->
+          <div class="col-md-4">
+            <div class="card h-100 shadow">
+              <div class="card-body text-center">
+                <h4 class="card-title fw-bold">Weekly Progress</h4>
+                <p class="card-text text-muted">
+                  Check your weekly goals, completion rate, and personal
+                  improvements.
+                </p>
+                <a
+                  href="progress.html"
+                  class="btn btn-primary"
+                  style="
+                    background-color: #1a0b2e;
+                    border-color: #1a0b2e;
+                    color: white;
+                  "
+                  >View Progress</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3 -->
+          <div class="col-md-4">
+            <div class="card h-100 shadow">
+              <div class="card-body text-center">
+                <h4 class="card-title fw-bold">Analytics & Charts</h4>
+                <p class="card-text text-muted">
+                  Visualize calories, workouts, sleep hours, and more using
+                  interactive charts.
+                </p>
+                <a
+                  href="analytics.html"
+                  class="btn btn-primary"
+                  style="
+                    background-color: #1a0b2e;
+                    border-color: #1a0b2e;
+                    color: white;
+                  "
+                  >View Analytics</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      class="bg-dark text-white text-center py-3"
+      style="
+        font-family:
+          &quot;Lucida Sans&quot;, &quot;Lucida Sans Regular&quot;,
+          &quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Geneva,
+          Verdana, sans-serif;
+      "
+    >
+      <p class="mb-0">© 2025 Student Fitness & Performance Tracker</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const API_BASE = "http://localhost:8080";
+
+      async function loadDashboard() {
+        try {
+          const workouts = await fetch(
+            `${API_BASE}/analytics/total-workouts`,
+          ).then((res) => res.json());
+
+          document.getElementById("totalWorkouts").innerText = workouts;
+
+          const calories = await fetch(
+            `${API_BASE}/analytics/total-calories`,
+          ).then((res) => res.json());
+
+          document.getElementById("totalCalories").innerText = calories;
+
+          const sleep = await fetch(`${API_BASE}/analytics/total-sleep`).then(
+            (res) => res.json(),
+          );
+
+          document.getElementById("totalSleep").innerText = sleep;
+
+          const steps = await fetch(`${API_BASE}/analytics/total-steps`).then(
+            (res) => res.json(),
+          );
+
+          document.getElementById("totalSteps").innerText = steps;
+
+          const water = await fetch(`${API_BASE}/analytics/total-water`).then(
+            (res) => res.json(),
+          );
+
+          document.getElementById("totalWater").innerText = water;
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      async function loadRecentWorkouts() {
+        try {
+          const workouts = await fetch(`${API_BASE}/workouts`).then((res) =>
+            res.json(),
+          );
+
+          const table = document.getElementById("recentWorkoutsTable");
+
+          table.innerHTML = "";
+
+          workouts
+            .slice(-5)
+            .reverse()
+            .forEach((workout) => {
+              table.innerHTML += `
+          <tr>
+            <td>${workout.workoutDate}</td>
+            <td>${workout.exercise}</td>
+            <td>${workout.setsDone}</td>
+            <td>${workout.repsDone}</td>
+            <td>${workout.caloriesBurned}</td>
+          </tr>
+        `;
+            });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      loadDashboard();
+      loadRecentWorkouts();
+    </script>
+  </body>
+</html>

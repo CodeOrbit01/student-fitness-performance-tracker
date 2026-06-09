@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress | Fitness Tracker</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+        .progress-bar {
+            background-color: #6E43FF !important;
+        }
+    </style>
+
+  </head>
+  <body style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">Fitness Tracker</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Workout log.html">Workout Log</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="health-tracker.html">Health Tracker</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="progress.html">Progress</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="analytics.html">Analytics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <section
+      class="py-4"
+      style="background: linear-gradient(135deg, #1a0b2e, #063940)"
+    >
+      <div class="container text-center text-white">
+        <h2 class="fw-bold">Weekly Progress</h2>
+        <p class="mb-0">Your goals and achievements summarized</p>
+      </div>
+    </section>
+
+    <!-- PROGRESS SECTION -->
+    <section class="py-5">
+      <div class="container">
+        <h4 class="fw-bold mb-4">Your Weekly Summary</h4>
+
+        <!-- CARD 1 -->
+        <div class="card mb-4 shadow">
+          <div class="card-body">
+            <h5 class="fw-bold">Workout Completion</h5>
+            <p class="text-muted">
+              Based on total workout sessions done this week
+            </p>
+
+            <div class="progress" style="height: 25px">
+              <div
+  id="workoutProgressBar"
+  class="progress-bar bg-success"
+  role="progressbar"
+  style="width: 0%"
+>
+  0%
+</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card mb-4 shadow">
+          <div class="card-body">
+            <h5 class="fw-bold">Calories Goal Achieved</h5>
+            <p class="text-muted">Calories burned vs weekly target</p>
+
+            <div class="progress" style="height: 25px">
+              <div
+  id="caloriesProgressBar"
+  class="progress-bar bg-info"
+  role="progressbar"
+  style="width: 0%"
+>
+  0%
+</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="card mb-4 shadow">
+          <div class="card-body">
+            <h5 class="fw-bold">Sleep Goal Achieved</h5>
+            <p class="text-muted">
+              Total sleep hours compared to your weekly goal
+            </p>
+
+            <div class="progress" style="height: 25px">
+              <div
+  id="sleepProgressBar"
+  class="progress-bar bg-warning text-white"
+  role="progressbar"
+  style="width: 0%"
+>
+  0%
+</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="card mb-4 shadow">
+          <div class="card-body">
+            <h5 class="fw-bold">Steps Goal Achieved</h5>
+            <p class="text-muted">Steps walked this week</p>
+
+            <div class="progress" style="height: 25px">
+              <div
+  id="stepsProgressBar"
+  class="progress-bar bg-secondary"
+  role="progressbar"
+  style="width: 0%"
+>
+  0%
+</div>
+            </div>
+          </div>
+        </div>
+
+        <!--CARD 5-->
+        <div class="card mb-4 shadow">
+          <div class="card-body">
+            <h5 class="fw-bold">Water Goal Achieved</h5>
+            <p class="text-muted">Water intake compared to weekly goal</p>
+
+            <div class="progress" style="height: 25px">
+              <div
+                id="waterProgressBar"
+                class="progress-bar bg-primary"
+                role="progressbar"
+                style="width: 0%"
+              >
+                0%
+              </div>
+            </div>
+          </div>
+        </div>
+
+       <!-- PROGRESS OVERVIEW -->
+<h4 class="fw-bold mt-5 mb-3">Goal Progress Tracking</h4>
+<p class="text-muted">
+  Monitor your fitness achievements through dynamic progress indicators powered by live workout and health tracking data.
+</p>
+
+        <div class="table-responsive shadow">
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white text-center py-3">
+      <p class="mb-0">© 2025 Student Fitness & Performance Tracker</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+async function loadProgress() {
+
+    const workouts =
+        Number(await (await fetch(
+            "http://localhost:8080/analytics/total-workouts"
+        )).text());
+
+    const calories =
+        Number(await (await fetch(
+            "http://localhost:8080/analytics/total-calories"
+        )).text());
+
+    const sleep =
+        Number(await (await fetch(
+            "http://localhost:8080/analytics/total-sleep"
+        )).text());
+
+    const steps =
+        Number(await (await fetch(
+            "http://localhost:8080/analytics/total-steps"
+        )).text());
+
+    const water =
+        Number(await (await fetch(
+            "http://localhost:8080/analytics/total-water"
+        )).text());
+
+    const workoutPercent =
+        Math.min((workouts / 10) * 100, 100);
+
+    const caloriesPercent =
+        Math.min((calories / 2000) * 100, 100);
+
+    const sleepPercent =
+        Math.min((sleep / 56) * 100, 100);
+
+    const stepsPercent =
+        Math.min((steps / 70000) * 100, 100);
+
+    const waterPercent =
+        Math.min((water / 21) * 100, 100);
+
+    updateBar(
+        "workoutProgressBar",
+        workoutPercent
+    );
+
+    updateBar(
+        "caloriesProgressBar",
+        caloriesPercent
+    );
+
+    updateBar(
+        "sleepProgressBar",
+        sleepPercent
+    );
+
+    updateBar(
+        "stepsProgressBar",
+        stepsPercent
+    );
+
+    updateBar(
+        "waterProgressBar",
+        waterPercent
+    );
+}
+
+function updateBar(id, value) {
+
+    const bar = document.getElementById(id);
+
+    bar.style.width = value + "%";
+
+    bar.textContent =
+        value.toFixed(1) + "%";
+}
+
+loadProgress();
+</script>
+  </body>
+</html>

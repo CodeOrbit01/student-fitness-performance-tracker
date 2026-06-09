@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics | Fitness Tracker</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      async function loadCharts() {
+        const response = await fetch(
+          "http://localhost:8080/analytics/workouts",
+        );
+
+        const workouts = await response.json();
+
+        const caloriesByDate = {};
+        const exerciseCount = {};
+
+        workouts.forEach((workout) => {
+          const date = workout.workoutDate;
+
+          const exercise = workout.exercise;
+
+          const calories = workout.caloriesBurned;
+
+          caloriesByDate[date] = (caloriesByDate[date] || 0) + calories;
+
+          exerciseCount[exercise] = (exerciseCount[exercise] || 0) + 1;
+        });
+
+        const caloriesLabels = Object.keys(caloriesByDate);
+
+        const caloriesData = Object.values(caloriesByDate);
+
+        new Chart(document.getElementById("caloriesChart").getContext("2d"), {
+          type: "bar",
+          data: {
+            labels: caloriesLabels,
+            datasets: [
+              {
+                label: "Calories Burned",
+                data: caloriesData,
+                backgroundColor: "#5CC3FF",
+              },
+            ],
+          },
+        });
+
+        new Chart(document.getElementById("workoutChart").getContext("2d"), {
+          type: "line",
+          data: {
+            labels: caloriesLabels,
+            datasets: [
+              {
+                label: "Workouts Logged",
+                data: caloriesLabels.map((_, index) => index + 1),
+                borderColor: "#6610f2",
+                backgroundColor: "rgba(102,16,242,0.2)",
+                fill: true,
+                tension: 0.3,
+              },
+            ],
+          },
+        });
+
+        new Chart(document.getElementById("exerciseChart").getContext("2d"), {
+          type: "pie",
+          data: {
+            labels: Object.keys(exerciseCount),
+
+            datasets: [
+              {
+                data: Object.values(exerciseCount),
+
+                backgroundColor: [
+                  "#B3CFE2",
+                  "#1F2933",
+                  "#5F7A8C",
+                  "#2A353F",
+                  "#4A5563",
+                  "#96D1C1",
+                  "#6610f2",
+                ],
+              },
+            ],
+          },
+        });
+
+        new Chart(document.getElementById("sleepChart").getContext("2d"), {
+          type: "bar",
+          data: {
+            labels: ["Not Connected"],
+            datasets: [
+              {
+                label: "Sleep Data",
+                data: [0],
+                backgroundColor: "#96D1C1",
+              },
+            ],
+          },
+        });
+      }
+
+      loadCharts();
+    </script>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-dark"
+      style="
+        font-family:
+          &quot;Lucida Sans&quot;, &quot;Lucida Sans Regular&quot;,
+          &quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Geneva,
+          Verdana, sans-serif;
+      "
+    >
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">Fitness Tracker</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Workout log.html">Workout Log</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="health-tracker.html">Health Tracker</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="progress.html">Progress</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="analytics.html">Analytics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <section
+      class="py-4"
+      style="background: linear-gradient(135deg, #1a0b2e, #063940)"
+    >
+      <div class="container text-center text-white">
+        <h2 class="fw-bold">Analytics Dashboard</h2>
+        <p class="mb-0">
+          Visualize your workouts, calories, steps, and sleep patterns
+        </p>
+      </div>
+    </section>
+
+    <!-- CHARTS SECTION -->
+    <section class="py-5">
+      <div class="container">
+        <h4 class="fw-bold mb-4">Weekly Charts</h4>
+        <div class="row mb-4">
+          <div class="col-md-3">
+            <div class="card shadow text-center">
+              <div class="card-body">
+                <h6>Total Workouts</h6>
+                <h2 id="totalWorkouts">0</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow text-center">
+              <div class="card-body">
+                <h6>Total Calories</h6>
+                <h2 id="totalCalories">0</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow text-center">
+              <div class="card-body">
+                <h6>Average Reps</h6>
+                <h2 id="averageReps">0</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="card shadow text-center">
+              <div class="card-body">
+                <h6>Average Sets</h6>
+                <h2 id="averageSets">0</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- BAR CHART -->
+          <div class="col-md-6">
+            <div class="card shadow">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Calories Burned Per Day</h5>
+                <canvas id="caloriesChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- LINE CHART -->
+          <div class="col-md-6">
+            <div class="card shadow">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Workouts Completed Per Week</h5>
+                <canvas id="workoutChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- PIE CHART -->
+          <div class="col-md-6">
+            <div class="card shadow">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Exercise Type Distribution</h5>
+                <canvas id="exerciseChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLEEP CHART -->
+          <div class="col-md-6">
+            <div class="card shadow">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">Sleep Hours Per Week</h5>
+                <canvas id="sleepChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      class="bg-dark text-white text-center py-3"
+      style="
+        font-family:
+          &quot;Lucida Sans&quot;, &quot;Lucida Sans Regular&quot;,
+          &quot;Lucida Grande&quot;, &quot;Lucida Sans Unicode&quot;, Geneva,
+          Verdana, sans-serif;
+      "
+    >
+      <p class="mb-0">© 2025 Student Fitness & Performance Tracker</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      async function loadAnalytics() {
+        const totalWorkouts = await fetch(
+          "http://localhost:8080/analytics/total-workouts",
+        );
+
+        document.getElementById("totalWorkouts").textContent =
+          await totalWorkouts.text();
+
+        const totalCalories = await fetch(
+          "http://localhost:8080/analytics/total-calories",
+        );
+
+        document.getElementById("totalCalories").textContent =
+          await totalCalories.text();
+
+        const averageReps = await fetch(
+          "http://localhost:8080/analytics/average-reps",
+        );
+
+        document.getElementById("averageReps").textContent = Number(
+          await averageReps.text(),
+        ).toFixed(1);
+
+        const averageSets = await fetch(
+          "http://localhost:8080/analytics/average-sets",
+        );
+
+        document.getElementById("averageSets").textContent = Number(
+          await averageSets.text(),
+        ).toFixed(1);
+      }
+
+      loadAnalytics();
+    </script>
+  </body>
+</html>

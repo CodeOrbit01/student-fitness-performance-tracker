@@ -1,0 +1,94 @@
+package com.sneha.fitnesstracker.controller;
+
+import com.sneha.fitnesstracker.model.Workout;
+import com.sneha.fitnesstracker.repository.WorkoutRepository;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@CrossOrigin(origins = "*")
+@RestController
+public class WorkoutController {
+
+    private final WorkoutRepository workoutRepository;
+
+    public WorkoutController(WorkoutRepository workoutRepository) {
+        this.workoutRepository = workoutRepository;
+    }
+
+    // =========================
+    // WORKOUT CRUD ENDPOINTS
+    // =========================
+
+    @GetMapping("/workouts")
+    public List<Workout> getWorkouts() {
+        return workoutRepository.findAll();
+    }
+
+    @PostMapping("/workouts")
+    public Workout addWorkout(@RequestBody Workout workout) {
+        return workoutRepository.save(workout);
+    }
+
+    @DeleteMapping("/workouts/{id}")
+    public void deleteWorkout(@PathVariable Long id) {
+        workoutRepository.deleteById(id);
+    }
+
+    @PutMapping("/workouts/{id}")
+    public Workout updateWorkout(
+            @PathVariable Long id,
+            @RequestBody Workout updatedWorkout) {
+
+        Workout workout = workoutRepository.findById(id)
+                .orElseThrow();
+
+        workout.setWorkoutDate(updatedWorkout.getWorkoutDate());
+        workout.setExercise(updatedWorkout.getExercise());
+        workout.setSetsDone(updatedWorkout.getSetsDone());
+        workout.setRepsDone(updatedWorkout.getRepsDone());
+        workout.setCaloriesBurned(updatedWorkout.getCaloriesBurned());
+
+        return workoutRepository.save(workout);
+    }
+
+    // =========================
+    // ANALYTICS ENDPOINTS
+    // =========================
+
+    @GetMapping("/analytics/total-workouts")
+    public long getTotalWorkouts() {
+        return workoutRepository.count();
+    }
+
+    @GetMapping("/analytics/total-calories")
+    public int getTotalCalories() {
+        return workoutRepository.findAll()
+                .stream()
+                .mapToInt(Workout::getCaloriesBurned)
+                .sum();
+    }
+
+    @GetMapping("/analytics/average-reps")
+    public double getAverageReps() {
+        return workoutRepository.findAll()
+                .stream()
+                .mapToInt(Workout::getRepsDone)
+                .average()
+                .orElse(0);
+    }
+
+    @GetMapping("/analytics/average-sets")
+    public double getAverageSets() {
+        return workoutRepository.findAll()
+                .stream()
+                .mapToInt(Workout::getSetsDone)
+                .average()
+                .orElse(0);
+    }
+
+    @GetMapping("/analytics/workouts")
+    public List<Workout> analyticsWorkouts() {
+        return workoutRepository.findAll();
+    }
+}
