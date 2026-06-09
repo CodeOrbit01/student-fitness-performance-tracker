@@ -4,7 +4,7 @@ A full-stack fitness tracking web application that enables students to monitor w
 
 ## Features
 
-- Workout Logging
+- Workout Logging.
 - Sleep Tracking
 - Step Tracking
 - Water Intake Tracking
