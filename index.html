@@ -298,6 +298,8 @@
       const API_BASE =
         "https://student-fitness-performance-tracker-production.up.railway.app";
 
+      const userId = localStorage.getItem("userId");
+
       async function loadDashboard() {
         try {
           const workouts = await fetch(
@@ -336,9 +338,9 @@
 
       async function loadRecentWorkouts() {
         try {
-          const workouts = await fetch(`${API_BASE}/workouts`).then((res) =>
-            res.json(),
-          );
+          const workouts = await fetch(
+            `${API_BASE}/workouts/user/${userId}`,
+          ).then((res) => res.json());
 
           const table = document.getElementById("recentWorkoutsTable");
 
