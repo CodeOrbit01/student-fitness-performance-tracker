@@ -3,6 +3,9 @@ package com.sneha.fitnesstracker.controller;
 import com.sneha.fitnesstracker.model.Workout;
 import com.sneha.fitnesstracker.repository.WorkoutRepository;
 import org.springframework.web.bind.annotation.*;
+import com.sneha.fitnesstracker.dto.WorkoutRequest;
+import com.sneha.fitnesstracker.model.User;
+import com.sneha.fitnesstracker.repository.UserRepository;
 
 import java.util.List;
 
@@ -11,10 +14,15 @@ import java.util.List;
 public class WorkoutController {
 
     private final WorkoutRepository workoutRepository;
+    private final UserRepository userRepository;
 
-    public WorkoutController(WorkoutRepository workoutRepository) {
-        this.workoutRepository = workoutRepository;
-    }
+    public WorkoutController(
+        WorkoutRepository workoutRepository,
+        UserRepository userRepository) {
+
+    this.workoutRepository = workoutRepository;
+    this.userRepository = userRepository;
+}
 
     // =========================
     // WORKOUT CRUD ENDPOINTS
@@ -25,10 +33,34 @@ public class WorkoutController {
         return workoutRepository.findAll();
     }
 
+    @GetMapping("/workouts/user/{userId}")
+public List<Workout> getWorkoutsByUser(
+        @PathVariable Long userId) {
+
+    return workoutRepository.findByUserId(userId);
+}
+
     @PostMapping("/workouts")
-    public Workout addWorkout(@RequestBody Workout workout) {
-        return workoutRepository.save(workout);
-    }
+public Workout addWorkout(
+        @RequestBody WorkoutRequest request) {
+
+    User user = userRepository
+            .findById(request.getUserId())
+            .orElseThrow();
+
+    Workout workout = new Workout();
+
+    workout.setWorkoutDate(request.getWorkoutDate());
+    workout.setExercise(request.getExercise());
+    workout.setSetsDone(request.getSetsDone());
+    workout.setRepsDone(request.getRepsDone());
+    workout.setCaloriesBurned(request.getCaloriesBurned());
+
+    workout.setUser(user);
+
+    return workoutRepository.save(workout);
+}
+
 
     @DeleteMapping("/workouts/{id}")
     public void deleteWorkout(@PathVariable Long id) {

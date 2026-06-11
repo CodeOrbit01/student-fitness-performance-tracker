@@ -2,10 +2,15 @@ package com.sneha.fitnesstracker.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 @Table(name = "workouts")
 public class Workout {
+    @ManyToOne
+@JoinColumn(name = "user_id")
+private User user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +25,14 @@ public class Workout {
     private Integer repsDone;
 
     private Integer caloriesBurned;
+
+    public User getUser() {
+    return user;
+}
+
+public void setUser(User user) {
+    this.user = user;
+}
 
     public Workout() {
     }
