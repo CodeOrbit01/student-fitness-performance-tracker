@@ -200,31 +200,38 @@
     window.location.href = "login.html";
 }
 
+const userId = localStorage.getItem("userId");
+
+function logout() {
+    localStorage.removeItem("userId");
+    window.location.href = "login.html";
+}
+
 async function loadProgress() {
 
     const workouts =
         Number(await (await fetch(
-            "https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-workouts"
+            `https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-workouts/${userId}`
         )).text());
 
     const calories =
         Number(await (await fetch(
-            "https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-calories"
+            `https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-calories/${userId}`
         )).text());
 
     const sleep =
         Number(await (await fetch(
-            "https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-sleep"
+            `https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-sleep/${userId}`
         )).text());
 
     const steps =
         Number(await (await fetch(
-            "https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-steps"
+            `https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-steps/${userId}`
         )).text());
 
     const water =
         Number(await (await fetch(
-            "https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-water"
+            `https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-water/${userId}`
         )).text());
 
     const workoutPercent =

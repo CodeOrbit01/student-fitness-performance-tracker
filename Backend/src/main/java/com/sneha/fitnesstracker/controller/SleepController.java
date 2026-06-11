@@ -65,4 +65,12 @@ public SleepRecord addSleep(
                 .mapToDouble(SleepRecord::getHoursSlept)
                 .sum();
     }
+
+    @GetMapping("/analytics/total-sleep/{userId}")
+    public double getTotalSleepByUser(@PathVariable Long userId) {
+        return sleepRepository.findByUserId(userId)
+                .stream()
+                .mapToDouble(SleepRecord::getHoursSlept)
+                .sum();
+    }
 }

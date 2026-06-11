@@ -18,8 +18,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       async function loadCharts() {
+        const userId = localStorage.getItem("userId");
         const response = await fetch(
-          "https://student-fitness-performance-tracker-production.up.railway.app/analytics/workouts",
+          `https://student-fitness-performance-tracker-production.up.railway.app/analytics/workouts/${userId}`,
         );
 
         const workouts = await response.json();
@@ -286,23 +287,30 @@
       if (!localStorage.getItem("userId")) {
         window.location.href = "login.html";
       }
+
+      function logout() {
+        localStorage.removeItem("userId");
+        window.location.href = "login.html";
+      }
+
       async function loadAnalytics() {
+        const userId = localStorage.getItem("userId");
         const totalWorkouts = await fetch(
-          "https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-workouts",
+          `https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-workouts/${userId}`,
         );
 
         document.getElementById("totalWorkouts").textContent =
           await totalWorkouts.text();
 
         const totalCalories = await fetch(
-          "https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-calories",
+          `https://student-fitness-performance-tracker-production.up.railway.app/analytics/total-calories/${userId}`,
         );
 
         document.getElementById("totalCalories").textContent =
           await totalCalories.text();
 
         const averageReps = await fetch(
-          "https://student-fitness-performance-tracker-production.up.railway.app/analytics/average-reps",
+          `https://student-fitness-performance-tracker-production.up.railway.app/analytics/average-reps/${userId}`,
         );
 
         document.getElementById("averageReps").textContent = Number(
@@ -310,7 +318,7 @@
         ).toFixed(1);
 
         const averageSets = await fetch(
-          "https://student-fitness-performance-tracker-production.up.railway.app/analytics/average-sets",
+          `https://student-fitness-performance-tracker-production.up.railway.app/analytics/average-sets/${userId}`,
         );
 
         document.getElementById("averageSets").textContent = Number(

@@ -300,33 +300,46 @@
 
       const userId = localStorage.getItem("userId");
 
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+      }
+
+      function logout() {
+        localStorage.removeItem("userId");
+        window.location.href = "login.html";
+      }
+
       async function loadDashboard() {
         try {
           const workouts = await fetch(
-            `${API_BASE}/analytics/total-workouts`,
+            `${API_BASE}/analytics/total-workouts/${userId}`,
           ).then((res) => res.json());
 
           document.getElementById("totalWorkouts").innerText = workouts;
 
           const calories = await fetch(
-            `${API_BASE}/analytics/total-calories`,
+            `${API_BASE}/analytics/total-calories/${userId}`,
           ).then((res) => res.json());
 
           document.getElementById("totalCalories").innerText = calories;
 
-          const sleep = await fetch(`${API_BASE}/analytics/total-sleep`).then(
+          const sleep = await fetch(`${API_BASE}/analytics/total-sleep/${userId}`).then(
             (res) => res.json(),
           );
 
           document.getElementById("totalSleep").innerText = sleep;
 
-          const steps = await fetch(`${API_BASE}/analytics/total-steps`).then(
+          const steps = await fetch(`${API_BASE}/analytics/total-steps/${userId}`).then(
             (res) => res.json(),
           );
 
           document.getElementById("totalSteps").innerText = steps;
 
-          const water = await fetch(`${API_BASE}/analytics/total-water`).then(
+          const water = await fetch(`${API_BASE}/analytics/total-water/${userId}`).then(
             (res) => res.json(),
           );
 

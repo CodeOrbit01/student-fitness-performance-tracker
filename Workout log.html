@@ -205,6 +205,11 @@
 
       const userId = localStorage.getItem("userId");
 
+      function logout() {
+        localStorage.removeItem("userId");
+        window.location.href = "login.html";
+      }
+
       function formatDate(dateString) {
         const date = new Date(dateString);
 

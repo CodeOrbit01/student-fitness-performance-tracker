@@ -65,4 +65,12 @@ public WaterRecord addWater(
                 .mapToDouble(WaterRecord::getLitersDrank)
                 .sum();
     }
+
+    @GetMapping("/analytics/total-water/{userId}")
+    public double getTotalWaterByUser(@PathVariable Long userId) {
+        return waterRepository.findByUserId(userId)
+                .stream()
+                .mapToDouble(WaterRecord::getLitersDrank)
+                .sum();
+    }
 }

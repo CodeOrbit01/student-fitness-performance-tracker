@@ -93,6 +93,11 @@ public Workout addWorkout(
         return workoutRepository.count();
     }
 
+    @GetMapping("/analytics/total-workouts/{userId}")
+    public long getTotalWorkoutsByUser(@PathVariable Long userId) {
+        return workoutRepository.findByUserId(userId).size();
+    }
+
     @GetMapping("/analytics/total-calories")
     public int getTotalCalories() {
         return workoutRepository.findAll()
@@ -101,9 +106,26 @@ public Workout addWorkout(
                 .sum();
     }
 
+    @GetMapping("/analytics/total-calories/{userId}")
+    public int getTotalCaloriesByUser(@PathVariable Long userId) {
+        return workoutRepository.findByUserId(userId)
+                .stream()
+                .mapToInt(Workout::getCaloriesBurned)
+                .sum();
+    }
+
     @GetMapping("/analytics/average-reps")
     public double getAverageReps() {
         return workoutRepository.findAll()
+                .stream()
+                .mapToInt(Workout::getRepsDone)
+                .average()
+                .orElse(0);
+    }
+
+    @GetMapping("/analytics/average-reps/{userId}")
+    public double getAverageRepsByUser(@PathVariable Long userId) {
+        return workoutRepository.findByUserId(userId)
                 .stream()
                 .mapToInt(Workout::getRepsDone)
                 .average()
@@ -119,8 +141,22 @@ public Workout addWorkout(
                 .orElse(0);
     }
 
+    @GetMapping("/analytics/average-sets/{userId}")
+    public double getAverageSetsByUser(@PathVariable Long userId) {
+        return workoutRepository.findByUserId(userId)
+                .stream()
+                .mapToInt(Workout::getSetsDone)
+                .average()
+                .orElse(0);
+    }
+
     @GetMapping("/analytics/workouts")
     public List<Workout> analyticsWorkouts() {
         return workoutRepository.findAll();
+    }
+
+    @GetMapping("/analytics/workouts/{userId}")
+    public List<Workout> analyticsWorkoutsByUser(@PathVariable Long userId) {
+        return workoutRepository.findByUserId(userId);
     }
 }

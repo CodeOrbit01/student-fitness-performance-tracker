@@ -66,4 +66,12 @@ stepRecord.setStepsWalked(request.getStepsWalked());
                 .mapToInt(StepRecord::getStepsWalked)
                 .sum();
     }
+
+    @GetMapping("/analytics/total-steps/{userId}")
+    public int getTotalStepsByUser(@PathVariable Long userId) {
+        return stepRepository.findByUserId(userId)
+                .stream()
+                .mapToInt(StepRecord::getStepsWalked)
+                .sum();
+    }
 }
